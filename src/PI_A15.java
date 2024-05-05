@@ -29,7 +29,15 @@ public class PI_A15 {
 			System.out.println("Error 429. Too Many Requests. Key quota of requests for provided API to this API was exceeded. You may retry request after some time or after extending your key quota.");
 		}
 		else{
-			
+			StringBuilder infoString=new StringBuilder();
+				Scanner scaner=new Scanner(url.openStream());
+				
+				while (scaner.hasNext()) {
+					infoString.append(scaner.hasNextLine());
+				}
+				scaner.close();
+				
+				System.out.println(infoString);
 		}
 		
 		} catch (Exception e){
