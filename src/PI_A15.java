@@ -1,5 +1,6 @@
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Scanner;
 
 public class PI_A15 {
 
@@ -28,7 +29,7 @@ public class PI_A15 {
 		if (respuestaCode==429) {
 			System.out.println("Error 429. Too Many Requests. Key quota of requests for provided API to this API was exceeded. You may retry request after some time or after extending your key quota.");
 		}
-		else{
+		if (respuestaCode==200){
 			StringBuilder infoString=new StringBuilder();
 				Scanner scaner=new Scanner(url.openStream());
 				
