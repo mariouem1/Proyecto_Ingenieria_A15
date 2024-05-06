@@ -11,13 +11,27 @@ public class PI_A15 {
 		
 		try {
 		URL url=new URL("https://api.openweathermap.org/data/2.5/forecast?lat=40.416775&lon=-3.703790&lang=es&exclude=daily&appid="+APIKey1+"&units=metric&lang=sp");
-		//Se especifica la logitud, latitud, la respuesat diaria del tiempo, las unidades métricas, y el lenguaje.
+		//Se especifica la logitud, latitud, la respuesta diaria del tiempo, las unidades métricas, y el lenguaje.
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();	
 		connection.setRequestMethod("GET");
 		connection.connect();
 		
 		int respuestaCode=connection.getResponseCode();	//Comentario de todos los erres que puede haber
-		if (respuestaCode==400) {
+		if (respuestaCode!=200) {
+			System.out.println("Ha ocurrido un error: "+respuestaCode);
+		}
+		else{
+			StringBuilder infoString=new StringBuilder();
+			Scanner scaner=new Scanner(url.openStream());
+
+			while (scaner.hasNextLine()) {
+				infoString.append(scaner.nextLine());	
+			}
+			scaner.close();
+			System.out.print(infoString.toString());
+
+		}
+/*	if (respuestaCode==400) {
 			System.out.println("Error 400. Bad Request. Some mandatory parameters in the request are missing or some of request parameters have incorrect format or values out of allowed range. List of all parameters names that are missing or incorrect will be returned in `parameters`attribute of the `ErrorResponse` object");
 		}
 		if (respuestaCode==401) {
@@ -39,7 +53,7 @@ public class PI_A15 {
 				scaner.close();
 				
 				System.out.println(infoString);
-		}
+		}*/
 		
 		} catch (Exception e){
 			e.printStackTrace();
