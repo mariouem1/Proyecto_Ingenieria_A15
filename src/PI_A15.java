@@ -2,6 +2,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
+// Pág. web referencia: https://openweathermap.org/city/3117735
+// Pág. web comandos: https://openweathermap.org/api/one-call-3#how
+
 public class PI_A15 {
 
 	private static String APIKey1="1587f1c706adc7607d141a21f87bd306";	//Colocación de la API Key de OpenWeather
