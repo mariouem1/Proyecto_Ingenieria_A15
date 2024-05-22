@@ -49,7 +49,7 @@ public class PI_A15 {
 		// TODO Auto-generated method stub
 		
 		try {
-		URL url=new URL("https://api.openweathermap.org/data/2.5/forecast?lat="+Lat+"&lon="+Long+"&lang=es&exclude=daily&units=metric&appid="+APIKey1);
+		URL url=new URL("https://api.openweathermap.org/data/2.5/forecast?lat="+Lat+"&lon="+Long+"&lang=es&exclude=daily, aletrs&units=metric&appid="+APIKey1);
 		//Se especifica la logitud, latitud, la respuesta diaria del tiempo, las unidades métricas, y el lenguaje.
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();	
 		connection.setRequestMethod("GET");
@@ -101,7 +101,7 @@ public class PI_A15 {
 		} catch (Exception e){
 			e.printStackTrace();
 		}
-		
+	/*	
 //		En esta parte se creará una ventana donde se monstrarán los resultados obtendos.
 		JFrame cuadroTexto=new JFrame ("Proyecto Ingeniería: API Meteorológica");
 		cuadroTexto.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		//En esta parte si cerremos la ventana, se finaliazrá el programa
@@ -120,7 +120,7 @@ public class PI_A15 {
 		
 		cuadroTexto.setVisible(true);	//??	
 	
-			
+		*/	
 	
 	}
 
