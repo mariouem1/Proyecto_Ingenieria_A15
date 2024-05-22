@@ -1,13 +1,13 @@
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import java.awt.FlowLayout;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Scanner;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
+
 
 // Pág. web referencia: https://openweathermap.org/city/3117735
 // Pág. web comandos: https://openweathermap.org/api/one-call-3#how
@@ -91,7 +91,7 @@ public class PI_A15 {
             
             System.out.println("Data & Time: " + time);
             System.out.println("Temperature: " + temperature + " °C");
-            System.out.println("Weather Description: " + description);	//NO FUNCIONA
+            System.out.println("Weather Description: " + description);	
             //RACIACION UV
             System.out.println("Humidity: " + humidity + "%");
             System.out.println("Wind Speed: " + wind +" km/h");
@@ -101,6 +101,26 @@ public class PI_A15 {
 		} catch (Exception e){
 			e.printStackTrace();
 		}
+		
+//		En esta parte se creará una ventana donde se monstrarán los resultados obtendos.
+		JFrame cuadroTexto=new JFrame ("Proyecto Ingeniería: API Meteorológica");
+		cuadroTexto.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		//En esta parte si cerremos la ventana, se finaliazrá el programa
+
+		cuadroTexto.setSize(400,300);	//Tamaño de la ventana
+		cuadroTexto.setLayout(new FlowLayout());	//?
+		
+		JButton fetchButton=new JButton ("Actualizar");
+		JTextArea climaDisplay=new JTextArea (30, 90);
+		climaDisplay.setEditable(false);
+		
+		cuadroTexto.add(new JLabel("Pare Meteorológico de las Coordenadas: "+Lat+", "+Long));
+
+		cuadroTexto.add(fetchButton);
+		cuadroTexto.add(climaDisplay);
+		
+		cuadroTexto.setVisible(true);	//??	
+	
+			
 	
 	}
 
