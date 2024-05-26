@@ -39,7 +39,7 @@ public class PI_A15 {
         String weatherArrayString = jsonResponse.substring(weatherArrayStart, weatherArrayEnd);
 
         return parseValue(weatherArrayString, "\"3h\": \"", "\"");
-    }
+	}
 	
 	private static String WeatherDescription(String jsonResponse) {
 		String weatherArrayKey = "\"weather\":";
@@ -90,8 +90,10 @@ public class PI_A15 {
             String temperaturemax = parseValue(jsonResponse, "\"temp_max\":", ",");
             String humidity = parseValue(jsonResponse, "\"humidity\":", ",");
             String wind = parseWeatherDescription(jsonResponse);
+//        		int numberWind = Integer.parseInt(wind);
             String description = WeatherDescription(jsonResponse);  
             String rain= rainDescription(jsonResponse);  
+            String pressure=parseValue(jsonResponse, "\"pressure\":", ",");
             String time=parseValue(jsonResponse, "\"dt_txt\":", ",");
 
             System.out.println("\n"+"Día & Hora: " + time);
@@ -100,8 +102,9 @@ public class PI_A15 {
             System.out.println("Temperatura Mínima: " + temperaturemin + " °C");
             System.out.println("Temperatura Máxima: " + temperaturemax + " °C");
             System.out.println("Humedad: " + humidity + "%");
-            System.out.println("Viento: " + wind +" km/h");
+            System.out.println("Viento: " + wind +" m/s");
             System.out.println("Lluvia: " + rain +" mm");
+            System.out.println("Presión atmosférica: " + pressure +" hPa");
 
 		}
 
