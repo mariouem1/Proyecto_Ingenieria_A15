@@ -17,7 +17,7 @@ public class PI_A15 {
 	private static String parseValue(String jsonResponse, String key, String delimiter) {
         int startIndex = jsonResponse.indexOf(key) + key.length();
         int endIndex = jsonResponse.indexOf(delimiter, startIndex);
-        if (endIndex == -1) {
+        if (endIndex == -2) {
             endIndex = jsonResponse.length();
         }
         return jsonResponse.substring(startIndex, endIndex).trim();
@@ -29,7 +29,16 @@ public class PI_A15 {
         int weatherArrayEnd = jsonResponse.indexOf("]", weatherArrayStart) + 1;
         String weatherArrayString = jsonResponse.substring(weatherArrayStart, weatherArrayEnd);
 
-        return parseValue(weatherArrayString, "\"speed\":\"", "\"");
+        return parseValue(weatherArrayString, "\"speed\": \"", "\"");
+    }
+	
+	private static String rainDescription(String jsonResponse) {
+		String weatherArrayKey = "\"rain\":";
+        int weatherArrayStart = jsonResponse.indexOf(weatherArrayKey) + weatherArrayKey.length();
+        int weatherArrayEnd = jsonResponse.indexOf("]", weatherArrayStart) + 1;
+        String weatherArrayString = jsonResponse.substring(weatherArrayStart, weatherArrayEnd);
+
+        return parseValue(weatherArrayString, "\"3h\": \"", "\"");
     }
 	
 	private static String WeatherDescription(String jsonResponse) {
@@ -41,10 +50,12 @@ public class PI_A15 {
         return parseValue(weatherArrayString, "\"description\":\"", "\"");
     }
 	
+
+	
 	private static String APIKey1="1587f1c706adc7607d141a21f87bd306";	//Colocación de la API Key de OpenWeather
-	private static double Lat=41.36417;
-	private static double Long=2.15056;
-//	Coordenadas de la Torre de Comunicaciones de Montjuïc
+	private static double Lat=52.6289;
+	private static double Long=4.74403;
+//	Coordenadas de la Torre de Comunicaciones de Montjuïc	41.36417	2.15056
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -80,15 +91,17 @@ public class PI_A15 {
             String humidity = parseValue(jsonResponse, "\"humidity\":", ",");
             String wind = parseWeatherDescription(jsonResponse);
             String description = WeatherDescription(jsonResponse);  
+            String rain= rainDescription(jsonResponse);  
             String time=parseValue(jsonResponse, "\"dt_txt\":", ",");
 
+            System.out.println("\n"+"Día & Hora: " + time);
             System.out.println("Descripción: " + description);	
-            System.out.println("Día & Hora: " + time);
             System.out.println("Temperatura: " + temperature + " °C");
             System.out.println("Temperatura Mínima: " + temperaturemin + " °C");
             System.out.println("Temperatura Máxima: " + temperaturemax + " °C");
             System.out.println("Humedad: " + humidity + "%");
             System.out.println("Viento: " + wind +" km/h");
+            System.out.println("Lluvia: " + rain +" mm");
 
 		}
 
