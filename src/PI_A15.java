@@ -3,6 +3,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -17,7 +19,7 @@ public class PI_A15 {
 	private static String parseValue(String jsonResponse, String key, String delimiter) {
         int startIndex = jsonResponse.indexOf(key) + key.length();
         int endIndex = jsonResponse.indexOf(delimiter, startIndex);
-        if (endIndex == -2) {
+        if (endIndex == -1) {
             endIndex = jsonResponse.length();
         }
         return jsonResponse.substring(startIndex, endIndex).trim();
@@ -80,7 +82,7 @@ public class PI_A15 {
             while ((inputLine = in.readLine()) != null) {
                 infoString.append(inputLine);
             }
-            System.out.println(infoString);
+//            System.out.println(infoString);
             in.close();
 
             // Procesa la respuesta
@@ -90,47 +92,68 @@ public class PI_A15 {
             String temperaturemax = parseValue(jsonResponse, "\"temp_max\":", ",");
             String humidity = parseValue(jsonResponse, "\"humidity\":", ",");
             String wind = parseWeatherDescription(jsonResponse);
-//        		int numberWind = Integer.parseInt(wind);
             String description = WeatherDescription(jsonResponse);  
             String rain= rainDescription(jsonResponse);  
             String pressure=parseValue(jsonResponse, "\"pressure\":", ",");
             String time=parseValue(jsonResponse, "\"dt_txt\":", ",");
 
-            System.out.println("\n"+"Día & Hora: " + time);
-            System.out.println("Descripción: " + description);	
-            System.out.println("Temperatura: " + temperature + " °C");
-            System.out.println("Temperatura Mínima: " + temperaturemin + " °C");
-            System.out.println("Temperatura Máxima: " + temperaturemax + " °C");
-            System.out.println("Humedad: " + humidity + "%");
-            System.out.println("Viento: " + wind +" m/s");
-            System.out.println("Lluvia: " + rain +" mm");
-            System.out.println("Presión atmosférica: " + pressure +" hPa");
+            
+
+            
+
+//    		En esta parte se creará una ventana donde se monstrarán los resultados obtendos.
+    		JFrame cuadroTexto=new JFrame ("Proyecto Ingeniería: API Meteorológica");
+    		cuadroTexto.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		//En esta parte si cerremos la ventana, se finaliazrá el programa
+
+    		cuadroTexto.setSize(400,300);	//Tamaño de la ventana
+    		cuadroTexto.setLayout(new FlowLayout());	//?
+    		
+    		JButton fetchButton=new JButton ("Actualizar");
+    		JTextArea climaDisplay=new JTextArea (10, 30);
+    		climaDisplay.setEditable(true);
+    		
+    		cuadroTexto.add(new JLabel("Parte Meteorológico de las Coordenadas: "+Lat+", "+Long));
+
+    		cuadroTexto.add(fetchButton);
+    		cuadroTexto.add(climaDisplay);
+    		
+    		fetchButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+/*					System.out.println("\n"+"Día & Hora: " + time);
+		            System.out.println("Descripción: " + description);	
+		            System.out.println("Temperatura: " + temperature + " °C");
+		            System.out.println("Temperatura Mínima: " + temperaturemin + " °C");
+		            System.out.println("Temperatura Máxima: " + temperaturemax + " °C");
+		            System.out.println("Humedad: " + humidity + "%");
+		            System.out.println("Viento: " + wind +" m/s");
+		            System.out.println("Lluvia: " + rain +" mm");
+		            System.out.println("Presión atmosférica: " + pressure +" hPa");*/
+		            climaDisplay.setText("\n"+"Día & Hora: " + time);
+		            climaDisplay.setText("Descripción: " + description);
+		            climaDisplay.setText("Temperatura: " + temperature + " °C");
+		            climaDisplay.setText("Temperatura Mínima: " + temperaturemin + " °C");
+		            climaDisplay.setText("Temperatura Máxima: " + temperaturemax + " °C");
+		            climaDisplay.setText("Humedad: " + humidity + "%");
+		            climaDisplay.setText("Viento: " + wind +" m/s");
+		            climaDisplay.setText("Lluvia: " + rain +" mm");
+		            climaDisplay.setText("Presión atmosférica: " + pressure +" hPa");
+				}
+    			
+    		});
+    		
+    		
+    		cuadroTexto.setVisible(true);	//??	
+    	
 
 		}
 
 		} catch (Exception e){
 			e.printStackTrace();
 		}
-	/*	
-//		En esta parte se creará una ventana donde se monstrarán los resultados obtendos.
-		JFrame cuadroTexto=new JFrame ("Proyecto Ingeniería: API Meteorológica");
-		cuadroTexto.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		//En esta parte si cerremos la ventana, se finaliazrá el programa
 
-		cuadroTexto.setSize(400,300);	//Tamaño de la ventana
-		cuadroTexto.setLayout(new FlowLayout());	//?
-		
-		JButton fetchButton=new JButton ("Actualizar");
-		JTextArea climaDisplay=new JTextArea (30, 90);
-		climaDisplay.setEditable(false);
-		
-		cuadroTexto.add(new JLabel("Pare Meteorológico de las Coordenadas: "+Lat+", "+Long));
-
-		cuadroTexto.add(fetchButton);
-		cuadroTexto.add(climaDisplay);
-		
-		cuadroTexto.setVisible(true);	//??	
-	
-		*/	
 	
 	}
 
