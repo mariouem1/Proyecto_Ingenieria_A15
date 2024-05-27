@@ -113,7 +113,7 @@ public class PI_A15 {
     		
     		cuadroTexto.add(new JLabel("Parte Meteorológico de las Coordenadas: "+Lat+", "+Long));
     		
-    		ImageIcon icon = new ImageIcon("weather.png"); // Asegúrate de que el archivo icon.png esté en la ruta correcta
+    		ImageIcon icon = new ImageIcon("weather.png"); 
             Image image = icon.getImage();
             cuadroTexto.setIconImage(image);
 
@@ -138,18 +138,15 @@ public class PI_A15 {
                     climaDisplay.setText(climaText);
 				}
     			
-    		});
-    		
+    		});	
     		
     		cuadroTexto.setVisible(true);	//??	
     	
-
 		}
 
 		} catch (Exception e){
 			e.printStackTrace();
 		}
-
 	
 	}
 
