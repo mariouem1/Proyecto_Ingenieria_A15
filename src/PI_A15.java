@@ -1,9 +1,11 @@
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import java.awt.FlowLayout;
 import java.awt.Frame;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -110,6 +112,10 @@ public class PI_A15 {
     		climaDisplay.setEditable(false);
     		
     		cuadroTexto.add(new JLabel("Parte Meteorológico de las Coordenadas: "+Lat+", "+Long));
+    		
+    		ImageIcon icon = new ImageIcon("weather.png"); // Asegúrate de que el archivo icon.png esté en la ruta correcta
+            Image image = icon.getImage();
+            cuadroTexto.setIconImage(image);
 
     		cuadroTexto.add(fetchButton);
     		cuadroTexto.add(climaDisplay);
