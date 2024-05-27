@@ -99,12 +99,12 @@ public class PI_A15 {
             String time=parseValue(jsonResponse, "\"dt_txt\":", ",");
 
 //    		En esta parte se creará una ventana donde se monstrarán los resultados obtendos.
-    		JFrame cuadroTexto=new JFrame ("Proyecto Ingeniería: API Meteorológica");
+    		JFrame cuadroTexto=new JFrame ("Proyecto Ingeniería: API Meteorológica");	//Nombre principal de la ventana
     		cuadroTexto.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		//En esta parte si cerremos la ventana, se finaliazrá el programa
 
     		cuadroTexto.setSize(400,300);	//Tamaño de la ventana
-    		cuadroTexto.setLocation(560,300);
-    		cuadroTexto.setResizable(false);
+    		cuadroTexto.setLocation(560,300);	//Localización de la ventana
+    		cuadroTexto.setResizable(false);	//Cancelación de redimensión de ventana
     		cuadroTexto.setLayout(new FlowLayout());	//?
     		
     		JButton fetchButton=new JButton ("Actualizar");
@@ -117,12 +117,11 @@ public class PI_A15 {
             Image image = icon.getImage();
             cuadroTexto.setIconImage(image);
 
-    		cuadroTexto.add(fetchButton);
-    		cuadroTexto.add(climaDisplay);
-    			climaDisplay.setText("Pulse el botón Actualizar");
-    		fetchButton.addActionListener(new ActionListener() {
-
-				@Override
+    		cuadroTexto.add(fetchButton);	//Creación de un botón para actualizar la información del tiempo
+    		cuadroTexto.add(climaDisplay);	//Creación de una subventana donde se mostrará la información del tiempo
+    			climaDisplay.setText("---------------------Pulse el Botón Actualizar---------------------");
+    		fetchButton.addActionListener(new ActionListener() {	//Le diremos al botón que hacer después de activarse
+				@Override	//
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					String climaText = "Fecha & Hora: " + time + "\n";
