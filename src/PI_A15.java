@@ -56,37 +56,42 @@ public class PI_A15 {
 	
 
 	
-	private static String APIKey1="1587f1c706adc7607d141a21f87bd306";	//Colocación de la API Key de OpenWeather
+	private static String APIKey1="1587f1c706adc7607d141a21f87bd306";	//Colocación de la API Key de OpenWeather para más comodidad
 	private static double Lat=52.6289;
 	private static double Long=4.74403;
-//	Coordenadas de la Torre de Comunicaciones de Montjuïc	41.36417	2.15056
+//	Coordenadas de la Torre de Comunicaciones de Montjuïc
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
 		try {
 		URL url=new URL("https://api.openweathermap.org/data/2.5/forecast?lat="+Lat+"&lon="+Long+"&lang=es&exclude=hourly,daily,aletrs&units=metric&appid="+APIKey1);
-		//Se especifica la logitud, latitud, la respuesta diaria del tiempo, las unidades métricas, y el lenguaje.
+		//Se especifica la logitud, latitud, la respuesta diaria del tiempo, las unidades métricas, posibles alertas y el lenguaje.
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();	
 		connection.setRequestMethod("GET");
 		connection.connect();
 		
-		int respuestaCode=connection.getResponseCode();	//Comentario de todos los erres que puede haber
+		int respuestaCode=connection.getResponseCode();	//Comentario del código de error que puede haber de la API
 		if (respuestaCode != 200) {
 			System.out.println("Code Error: "+respuestaCode);
 		}
 		else{
+/*
+ * El método BufferReader se utiliza para leer la respuesta de la solicitud HTTP realizada a una API y almacenar 
+ * esa respuesta en una cadena String nombrada 
+ * 
+ * 
+ */
 			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String inputLine;
-            StringBuilder infoString = new StringBuilder();
+            String inputLine;	//La variable "inputLine" se utilizará para almacenar cada línea de texto leída de la respuesta HTTP.
+            StringBuilder infoString = new StringBuilder();	//Se utiliza para construir la cadena final que contendrá toda la respuesta HTTP
 
-            while ((inputLine = in.readLine()) != null) {
-                infoString.append(inputLine);
+            while ((inputLine = in.readLine()) != null) {	//Se leerá cada línea de la respuesta HTTP
+                infoString.append(inputLine);	//Esta línea añade cada línea leída al StringBuilder (infoString).
             }
 //            System.out.println(infoString);		//Print de comprobación de la llamada a la API
             in.close();
 
-            // Procesa la respuesta de la llamda API según el dato seleccionado
             String jsonResponse = infoString.toString();
 /* Creación de un String para contener la información de la llamada API
  * 
@@ -105,16 +110,16 @@ public class PI_A15 {
 
 //    		En esta parte se creará una ventana donde se monstrarán los resultados obtendos.
     		JFrame cuadroTexto=new JFrame ("Proyecto Ingeniería: API Meteorológica");	//Nombre principal de la ventana
-    		cuadroTexto.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		//En esta parte si cerremos la ventana, se finaliazrá el programa
+    		cuadroTexto.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		//En esta parte si cerremos la ventana, se finalizará el programa
 
     		cuadroTexto.setSize(400,300);	//Tamaño de la ventana
     		cuadroTexto.setLocation(560,300);	//Localización de la ventana
     		cuadroTexto.setResizable(false);	//Cancelación de redimensión de ventana
-    		cuadroTexto.setLayout(new FlowLayout());	//?
+    		cuadroTexto.setLayout(new FlowLayout());	
     		
-    		JButton fetchButton=new JButton ("Actualizar");
-    		JTextArea climaDisplay=new JTextArea (11, 30);
-    		climaDisplay.setEditable(false);
+    		JButton fetchButton=new JButton ("Actualizar");		//Creación del botón "Actualizar"
+    		JTextArea climaDisplay=new JTextArea (11, 30);	//Tamaño de la subventana donde se mostrará la información
+    		climaDisplay.setEditable(false);	//La subventana no será editable mediante texto introducido
     		
     		cuadroTexto.add(new JLabel("Parte Meteorológico de las Coordenadas: "+Lat+", "+Long));
     		
@@ -128,16 +133,16 @@ public class PI_A15 {
     		fetchButton.addActionListener(new ActionListener() {	//Le diremos al botón que hacer después de activarse
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					String climaText = "Fecha & Hora: " + time + "\n";
-                    climaText += "Descripción: " + description + "\n";
-                    climaText += "Temperatura: " + temperature + " °C\n";
-                    climaText += "Temperatura Mínima: " + temperaturemin + " °C\n";
-                    climaText += "Temperatura Máxima: " + temperaturemax + " °C\n";
-                    climaText += "Humedad: " + humidity + "%\n";
-                    climaText += "Viento: " + wind + " m/s\n";
-                    climaText += "Lluvia: " + rain + " mm\n";
-                    climaText += "Presión atmosférica: " + pressure + " hPa\n";
-                    climaText += "\nAPI Code: "+ respuestaCode;
+					String climaText ="Fecha & Hora: " + time + "\n";
+                    climaText +="Descripción: " + description + "\n";
+                    climaText +="Temperatura: " + temperature + " °C\n";
+                    climaText +="Temperatura Mínima: " + temperaturemin + " °C\n";
+                    climaText +="Temperatura Máxima: " + temperaturemax + " °C\n";
+                    climaText +="Humedad: " + humidity + "%\n";
+                    climaText +="Viento: " + wind + " m/s\n";
+                    climaText +="Lluvia: " + rain + " mm\n";
+                    climaText +="Presión atmosférica: " + pressure + " hPa\n";
+                    climaText +="\nAPI Code: "+ respuestaCode;
                     climaDisplay.setText(climaText);	//Todos los datos serán impresos en la subventana
 				}
     			
