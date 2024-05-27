@@ -37,6 +37,14 @@ public class PI_A15 {
         return parseValue(weatherArrayString, "\"speed\":", ",");
     }
  
+	public double getValor(String parseWeatherDescription){
+	    String texto = null;
+		if(texto.contains(".")){
+	        return Double.parseDouble(texto.replace(".", ",").trim());
+	    }
+	    return Double.parseDouble(texto.trim());
+	}
+	
     private static String rainDescription(String jsonResponse) {
         String rainKey = "\"rain\":{\"3h\":";
         return parseValue(jsonResponse, rainKey, "}");
@@ -54,11 +62,11 @@ public class PI_A15 {
 
 	
 	private static String APIKey1="1587f1c706adc7607d141a21f87bd306";	//Colocación de la API Key de OpenWeather
-	private static double Lat=52.6289;
-	private static double Long=4.74403;
+	private static double Lat=41.36417;
+	private static double Long=2.15056;
 //	Coordenadas de la Torre de Comunicaciones de Montjuïc	41.36417	2.15056
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) {	
 		// TODO Auto-generated method stub
 		
 		try {
@@ -73,7 +81,6 @@ public class PI_A15 {
 			System.out.println("Code Error: "+respuestaCode);
 		}
 		else{
-			System.out.println(respuestaCode);
 			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String inputLine;
             StringBuilder infoString = new StringBuilder();
@@ -91,8 +98,8 @@ public class PI_A15 {
             String temperaturemax = parseValue(jsonResponse, "\"temp_max\":", ",");
             String humidity = parseValue(jsonResponse, "\"humidity\":", ",");
             String wind = parseWeatherDescription(jsonResponse);
-            String description = WeatherDescription(jsonResponse);  
-            String rain= rainDescription(jsonResponse);  
+            String rain= rainDescription(jsonResponse); 
+    		String description = WeatherDescription(jsonResponse);   
             String pressure=parseValue(jsonResponse, "\"pressure\":", ",");
             String time=parseValue(jsonResponse, "\"dt_txt\":", ",");
 
@@ -104,7 +111,7 @@ public class PI_A15 {
     		cuadroTexto.setLayout(new FlowLayout());	//?
     		
     		JButton fetchButton=new JButton ("Actualizar");
-    		JTextArea climaDisplay=new JTextArea (10, 30);
+    		JTextArea climaDisplay=new JTextArea (10, 35);
     		climaDisplay.setEditable(true);
     		
     		cuadroTexto.add(new JLabel("Parte Meteorológico de las Coordenadas: "+Lat+", "+Long));
@@ -113,35 +120,33 @@ public class PI_A15 {
     		cuadroTexto.add(climaDisplay);
     		
     		fetchButton.addActionListener(new ActionListener() {
-
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					String climaText = "\nDía & Hora: " + time + "\n";
+					String climaText = "Fecha & Hora: " + time + "\n";
                     climaText += "Descripción: " + description + "\n";
                     climaText += "Temperatura: " + temperature + " °C\n";
                     climaText += "Temperatura Mínima: " + temperaturemin + " °C\n";
                     climaText += "Temperatura Máxima: " + temperaturemax + " °C\n";
-                    climaText += "Humedad: " + humidity + "%\n";
+                    climaText += "Humedad: " + humidity + "% \n";
                     climaText += "Viento: " + wind + " m/s\n";
                     climaText += "Lluvia: " + rain + " mm\n";
                     climaText += "Presión atmosférica: " + pressure + " hPa\n";
+                    climaText += "\nAPI Code: "+respuestaCode;
                     climaDisplay.setText(climaText);
+				
 				}
     			
     		});
-    		
-    		
     		cuadroTexto.setVisible(true);	//??	
-    	
+    		
 
 		}
 
 		} catch (Exception e){
 			e.printStackTrace();
-		}
+	}
 
-	
 	}
 
 }
