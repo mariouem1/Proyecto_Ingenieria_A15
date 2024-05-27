@@ -18,30 +18,29 @@ public class PI_A15 {
 
 	private static String parseValue(String jsonResponse, String key, String delimiter) {
         int startIndex = jsonResponse.indexOf(key) + key.length();
+        if (startIndex < key.length()) {
+            return ""; // Si no encuentra la clave, retorna una cadena vacía
+        }
         int endIndex = jsonResponse.indexOf(delimiter, startIndex);
         if (endIndex == -1) {
             endIndex = jsonResponse.length();
         }
-        return jsonResponse.substring(startIndex, endIndex).trim();
+        return jsonResponse.substring(startIndex, endIndex).replaceAll("[\"{}]", "").trim();
     }
 	
 	private static String parseWeatherDescription(String jsonResponse) {
         String weatherArrayKey = "\"wind\":";
         int weatherArrayStart = jsonResponse.indexOf(weatherArrayKey) + weatherArrayKey.length();
-        int weatherArrayEnd = jsonResponse.indexOf("]", weatherArrayStart) + 1;
+        int weatherArrayEnd = jsonResponse.indexOf("}", weatherArrayStart) + 1;
         String weatherArrayString = jsonResponse.substring(weatherArrayStart, weatherArrayEnd);
-
-        return parseValue(weatherArrayString, "\"speed\": \"", "\"");
+ 
+        return parseValue(weatherArrayString, "\"speed\":", ",");
     }
-	
-	private static String rainDescription(String jsonResponse) {
-		String weatherArrayKey = "\"rain\":";
-        int weatherArrayStart = jsonResponse.indexOf(weatherArrayKey) + weatherArrayKey.length();
-        int weatherArrayEnd = jsonResponse.indexOf("]", weatherArrayStart) + 1;
-        String weatherArrayString = jsonResponse.substring(weatherArrayStart, weatherArrayEnd);
-
-        return parseValue(weatherArrayString, "\"3h\": \"", "\"");
-	}
+ 
+    private static String rainDescription(String jsonResponse) {
+        String rainKey = "\"rain\":{\"3h\":";
+        return parseValue(jsonResponse, rainKey, "}");
+    }
 	
 	private static String WeatherDescription(String jsonResponse) {
 		String weatherArrayKey = "\"weather\":";
@@ -82,7 +81,7 @@ public class PI_A15 {
             while ((inputLine = in.readLine()) != null) {
                 infoString.append(inputLine);
             }
-//            System.out.println(infoString);
+//            System.out.println(infoString);		//Print de comprobación de la llamada a la API
             in.close();
 
             // Procesa la respuesta
@@ -96,10 +95,6 @@ public class PI_A15 {
             String rain= rainDescription(jsonResponse);  
             String pressure=parseValue(jsonResponse, "\"pressure\":", ",");
             String time=parseValue(jsonResponse, "\"dt_txt\":", ",");
-
-            
-
-            
 
 //    		En esta parte se creará una ventana donde se monstrarán los resultados obtendos.
     		JFrame cuadroTexto=new JFrame ("Proyecto Ingeniería: API Meteorológica");
@@ -122,24 +117,16 @@ public class PI_A15 {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-/*					System.out.println("\n"+"Día & Hora: " + time);
-		            System.out.println("Descripción: " + description);	
-		            System.out.println("Temperatura: " + temperature + " °C");
-		            System.out.println("Temperatura Mínima: " + temperaturemin + " °C");
-		            System.out.println("Temperatura Máxima: " + temperaturemax + " °C");
-		            System.out.println("Humedad: " + humidity + "%");
-		            System.out.println("Viento: " + wind +" m/s");
-		            System.out.println("Lluvia: " + rain +" mm");
-		            System.out.println("Presión atmosférica: " + pressure +" hPa");*/
-		            climaDisplay.setText("\n"+"Día & Hora: " + time);
-		            climaDisplay.setText("Descripción: " + description);
-		            climaDisplay.setText("Temperatura: " + temperature + " °C");
-		            climaDisplay.setText("Temperatura Mínima: " + temperaturemin + " °C");
-		            climaDisplay.setText("Temperatura Máxima: " + temperaturemax + " °C");
-		            climaDisplay.setText("Humedad: " + humidity + "%");
-		            climaDisplay.setText("Viento: " + wind +" m/s");
-		            climaDisplay.setText("Lluvia: " + rain +" mm");
-		            climaDisplay.setText("Presión atmosférica: " + pressure +" hPa");
+					String climaText = "\nDía & Hora: " + time + "\n";
+                    climaText += "Descripción: " + description + "\n";
+                    climaText += "Temperatura: " + temperature + " °C\n";
+                    climaText += "Temperatura Mínima: " + temperaturemin + " °C\n";
+                    climaText += "Temperatura Máxima: " + temperaturemax + " °C\n";
+                    climaText += "Humedad: " + humidity + "%\n";
+                    climaText += "Viento: " + wind + " m/s\n";
+                    climaText += "Lluvia: " + rain + " mm\n";
+                    climaText += "Presión atmosférica: " + pressure + " hPa\n";
+                    climaDisplay.setText(climaText);
 				}
     			
     		});
