@@ -3,6 +3,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -101,11 +102,13 @@ public class PI_A15 {
     		cuadroTexto.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		//En esta parte si cerremos la ventana, se finaliazrá el programa
 
     		cuadroTexto.setSize(400,300);	//Tamaño de la ventana
+    		cuadroTexto.setLocation(560,300);
+    		cuadroTexto.setResizable(false);
     		cuadroTexto.setLayout(new FlowLayout());	//?
     		
     		JButton fetchButton=new JButton ("Actualizar");
     		JTextArea climaDisplay=new JTextArea (10, 30);
-    		climaDisplay.setEditable(true);
+    		climaDisplay.setEditable(false);
     		
     		cuadroTexto.add(new JLabel("Parte Meteorológico de las Coordenadas: "+Lat+", "+Long));
 
