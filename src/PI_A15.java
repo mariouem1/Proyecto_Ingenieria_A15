@@ -74,7 +74,6 @@ public class PI_A15 {
 			System.out.println("Code Error: "+respuestaCode);
 		}
 		else{
-			System.out.println(respuestaCode);
 			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String inputLine;
             StringBuilder infoString = new StringBuilder();
@@ -107,20 +106,20 @@ public class PI_A15 {
     		cuadroTexto.setLayout(new FlowLayout());	//?
     		
     		JButton fetchButton=new JButton ("Actualizar");
-    		JTextArea climaDisplay=new JTextArea (10, 30);
+    		JTextArea climaDisplay=new JTextArea (11, 30);
     		climaDisplay.setEditable(false);
     		
     		cuadroTexto.add(new JLabel("Parte Meteorológico de las Coordenadas: "+Lat+", "+Long));
 
     		cuadroTexto.add(fetchButton);
     		cuadroTexto.add(climaDisplay);
-    		
+    			climaDisplay.setText("Pulse el botón Actualizar");
     		fetchButton.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					String climaText = "\nDía & Hora: " + time + "\n";
+					String climaText = "Fecha & Hora: " + time + "\n";
                     climaText += "Descripción: " + description + "\n";
                     climaText += "Temperatura: " + temperature + " °C\n";
                     climaText += "Temperatura Mínima: " + temperaturemin + " °C\n";
@@ -129,6 +128,7 @@ public class PI_A15 {
                     climaText += "Viento: " + wind + " m/s\n";
                     climaText += "Lluvia: " + rain + " mm\n";
                     climaText += "Presión atmosférica: " + pressure + " hPa\n";
+                    climaText += "\nAPI Code: "+ respuestaCode;
                     climaDisplay.setText(climaText);
 				}
     			
