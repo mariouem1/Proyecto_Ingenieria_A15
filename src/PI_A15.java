@@ -31,7 +31,7 @@ public class PI_A15 {
         return jsonResponse.substring(startIndex, endIndex).replaceAll("[\"{}]", "").trim();
     }
 	
-	private static String parseWeatherDescription(String jsonResponse) {
+	private static String parseValueWind(String jsonResponse) {
         String weatherArrayKey = "\"wind\":";
         int weatherArrayStart = jsonResponse.indexOf(weatherArrayKey) + weatherArrayKey.length();
         int weatherArrayEnd = jsonResponse.indexOf("}", weatherArrayStart) + 1;
@@ -40,12 +40,12 @@ public class PI_A15 {
         return parseValue(weatherArrayString, "\"speed\":", ",");
     }
  
-    private static String rainDescription(String jsonResponse) {
+    private static String parseValueRain(String jsonResponse) {
         String rainKey = "\"rain\":{\"3h\":";
         return parseValue(jsonResponse, rainKey, "}");
     }
 	
-	private static String WeatherDescription(String jsonResponse) {
+	private static String parseDescription(String jsonResponse) {
 		String weatherArrayKey = "\"weather\":";
         int weatherArrayStart = jsonResponse.indexOf(weatherArrayKey) + weatherArrayKey.length();
         int weatherArrayEnd = jsonResponse.indexOf("]", weatherArrayStart) + 1;
@@ -86,15 +86,20 @@ public class PI_A15 {
 //            System.out.println(infoString);		//Print de comprobación de la llamada a la API
             in.close();
 
-            // Procesa la respuesta
+            // Procesa la respuesta de la llamda API según el dato seleccionado
             String jsonResponse = infoString.toString();
+/* Creación de un String para contener la información de la llamada API
+ * 
+ * A partr de este String, seleccionaremos los datos que se quieran visualizar gracias al método parseValue y el 
+ *   dato que se quiere obtener.
+ */
             String temperature = parseValue(jsonResponse, "\"temp\":", ",");
             String temperaturemin = parseValue(jsonResponse, "\"temp_min\":", ",");
             String temperaturemax = parseValue(jsonResponse, "\"temp_max\":", ",");
             String humidity = parseValue(jsonResponse, "\"humidity\":", ",");
-            String wind = parseWeatherDescription(jsonResponse);
-            String description = WeatherDescription(jsonResponse);  
-            String rain= rainDescription(jsonResponse);  
+            String wind = parseValueWind(jsonResponse);
+            String description = parseDescription(jsonResponse);  
+            String rain= parseValueRain(jsonResponse);  
             String pressure=parseValue(jsonResponse, "\"pressure\":", ",");
             String time=parseValue(jsonResponse, "\"dt_txt\":", ",");
 
@@ -113,15 +118,14 @@ public class PI_A15 {
     		
     		cuadroTexto.add(new JLabel("Parte Meteorológico de las Coordenadas: "+Lat+", "+Long));
     		
-    		ImageIcon icon = new ImageIcon("weather.png"); 
-            Image image = icon.getImage();
-            cuadroTexto.setIconImage(image);
+    		ImageIcon icon = new ImageIcon("weather.png"); 	//Cambio del icono de la ventana de JAVA por un icomo WEATHER
+            Image image = icon.getImage();					//dentro de la carpeta del proyecto
+            cuadroTexto.setIconImage(image);				//Insertar la imagen
 
     		cuadroTexto.add(fetchButton);	//Creación de un botón para actualizar la información del tiempo
     		cuadroTexto.add(climaDisplay);	//Creación de una subventana donde se mostrará la información del tiempo
     			climaDisplay.setText("---------------------Pulse el Botón Actualizar---------------------");
     		fetchButton.addActionListener(new ActionListener() {	//Le diremos al botón que hacer después de activarse
-				@Override	//
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					String climaText = "Fecha & Hora: " + time + "\n";
@@ -134,17 +138,18 @@ public class PI_A15 {
                     climaText += "Lluvia: " + rain + " mm\n";
                     climaText += "Presión atmosférica: " + pressure + " hPa\n";
                     climaText += "\nAPI Code: "+ respuestaCode;
-                    climaDisplay.setText(climaText);
+                    climaDisplay.setText(climaText);	//Todos los datos serán impresos en la subventana
 				}
     			
     		});	
     		
-    		cuadroTexto.setVisible(true);	//??	
+    		cuadroTexto.setVisible(true);	//Hace visible el JFrame cuadroTexto	
     	
 		}
 
 		} catch (Exception e){
 			e.printStackTrace();
+//			Impresión de errores posibles
 		}
 	
 	}
