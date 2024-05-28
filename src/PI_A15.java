@@ -4,7 +4,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,12 +12,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
-// Pág. web referencia: https://openweathermap.org/city/3117735
+// Pág. web referencia: https://openweathermap.org/city/3128760
 // Pág. web comandos: https://openweathermap.org/api/one-call-3#how
 
 public class PI_A15 {
 
+/*
+ * Con 
+ * 
+ */
+	
 	private static String parseValue(String jsonResponse, String key, String delimiter) {
         int startIndex = jsonResponse.indexOf(key) + key.length();
         if (startIndex < key.length()) {
@@ -57,8 +60,8 @@ public class PI_A15 {
 
 	
 	private static String APIKey1="1587f1c706adc7607d141a21f87bd306";	//Colocación de la API Key de OpenWeather para más comodidad
-	private static double Lat=52.6289;
-	private static double Long=4.74403;
+	private static double Lat=41.36417;
+	private static double Long=2.1505;
 //	Coordenadas de la Torre de Comunicaciones de Montjuïc
 	
 	public static void main(String[] args) {
@@ -67,20 +70,20 @@ public class PI_A15 {
 		try {
 		URL url=new URL("https://api.openweathermap.org/data/2.5/forecast?lat="+Lat+"&lon="+Long+"&lang=es&exclude=hourly,daily,aletrs&units=metric&appid="+APIKey1);
 		//Se especifica la logitud, latitud, la respuesta diaria del tiempo, las unidades métricas, posibles alertas y el lenguaje.
+		
+		//Llamada a la API a través de una conexión URL
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();	
 		connection.setRequestMethod("GET");
 		connection.connect();
 		
-		int respuestaCode=connection.getResponseCode();	//Comentario del código de error que puede haber de la API
+		int respuestaCode=connection.getResponseCode();	
 		if (respuestaCode != 200) {
-			System.out.println("Code Error: "+respuestaCode);
+			System.out.println("Code Error: "+respuestaCode);	//Comentario del código de error que puede haber de la API
 		}
 		else{
 /*
  * El método BufferReader se utiliza para leer la respuesta de la solicitud HTTP realizada a una API y almacenar 
- * esa respuesta en una cadena String nombrada 
- * 
- * 
+ * esa respuesta en una cadena String nombrada "infoString"
  */
 			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String inputLine;	//La variable "inputLine" se utilizará para almacenar cada línea de texto leída de la respuesta HTTP.
@@ -93,7 +96,8 @@ public class PI_A15 {
             in.close();
 
             String jsonResponse = infoString.toString();
-/* Creación de un String para contener la información de la llamada API
+/* 
+ * Creación de un String para contener la información de la llamada API
  * 
  * A partr de este String, seleccionaremos los datos que se quieran visualizar gracias al método parseValue y el 
  *   dato que se quiere obtener.
