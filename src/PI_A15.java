@@ -60,6 +60,13 @@ public class PI_A15 {
         return parseValue(descriptionArrayString, "\"description\":\"", "\"");
     }
 	
+	public static double convertStringToDouble1(String str) throws NumberFormatException {
+        // Reemplazar coma con punto
+        str = str.replace(',', '.');
+        // Convertir a double
+        return Double.parseDouble(str);	//Esto lo realizamos para obtener el resultado en km/h y no en m/s
+    }
+	
 	private static String APIKey1="1587f1c706adc7607d141a21f87bd306";	//Colocación de la API Key de OpenWeather para más comodidad
 	private static double Lat=41.36417;
 	private static double Long=2.1505;
@@ -108,6 +115,7 @@ public class PI_A15 {
             String temperaturemax = parseValue(jsonResponse, "\"temp_max\":", ",");
             String humidity = parseValue(jsonResponse, "\"humidity\":", ",");
             String wind = parseValueWind(jsonResponse);
+            	double wind1 = convertStringToDouble1(wind);	//Conversión del resultado String a un double
             String description = parseDescription(jsonResponse);  
             String rain= parseValueRain(jsonResponse);  
             String pressure=parseValue(jsonResponse, "\"pressure\":", ",");
@@ -138,13 +146,13 @@ public class PI_A15 {
     		fetchButton.addActionListener(new ActionListener() {	//Le diremos al botón que hacer después de activarse
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					String climaText ="Fecha & Hora: " + time + "\n";
-                    climaText +="Descripción: " + description + "\n";
-                    climaText +="Temperatura: " + temperature + " °C\n";
+					String climaText ="Fecha & Hora: " + time + "\n";				//El "+=" equivalen a un "println"
+                    climaText +="Descripción: " + description + "\n";				//pero dentro de la subventana
+                    climaText +="Temperatura: " + temperature + " °C\n";			
                     climaText +="Temperatura Mínima: " + temperaturemin + " °C\n";
                     climaText +="Temperatura Máxima: " + temperaturemax + " °C\n";
                     climaText +="Humedad: " + humidity + "%\n";
-                    climaText +="Viento: " + wind + " m/s\n";
+                    climaText +="Viento: " + (wind1*3.6) + " km/h\n";
                     climaText +="Lluvia: " + rain + " mm\n";
                     climaText +="Presión atmosférica: " + pressure + " hPa\n";
                     climaText +="\nAPI Code: "+ respuestaCode;
@@ -161,4 +169,9 @@ public class PI_A15 {
 //			Impresión de errores posibles
 		}
 	}
+
+private static double convertStringToDouble(String modifiedString1) {
+	// TODO Auto-generated method stub
+	return 0;
+}
 }
