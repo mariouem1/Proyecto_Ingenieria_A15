@@ -16,12 +16,14 @@ import java.net.URL;
 // Pág. web comandos: https://openweathermap.org/api/one-call-3#how
 
 public class PI_A15 {
+	
+ // Se han usado métodos "private static" para acceder más fácil a los datos y no saturar el código principal
 
 /*
- * Con 
+ * El primer método parsevalue obtendremos los datos de la llamada que no se encuentran dentro de un subarray de la llamada API.
+ * A estos se les eliminará las dobles comillas y llaves ("{}") para que no aparezcan en el resulatado final.
  * 
  */
-	
 	private static String parseValue(String jsonResponse, String key, String delimiter) {
         int startIndex = jsonResponse.indexOf(key) + key.length();
         if (startIndex < key.length()) {
@@ -35,29 +37,28 @@ public class PI_A15 {
     }
 	
 	private static String parseValueWind(String jsonResponse) {
-        String weatherArrayKey = "\"wind\":";
-        int weatherArrayStart = jsonResponse.indexOf(weatherArrayKey) + weatherArrayKey.length();
-        int weatherArrayEnd = jsonResponse.indexOf("}", weatherArrayStart) + 1;
-        String weatherArrayString = jsonResponse.substring(weatherArrayStart, weatherArrayEnd);
+        String windArrayKey = "\"wind\":";		//Realizará la búsqueda dentro de la sección "wind" de la llamda API
+        int windArrayStart = jsonResponse.indexOf(windArrayKey) + windArrayKey.length();	//Establece inicio y final
+        int windArrayEnd = jsonResponse.indexOf("}", windArrayStart) + 1;					//del array "wind"
+        String windArrayString = jsonResponse.substring(windArrayStart, windArrayEnd);		
+        //Creación de un subarray dondese encuantran los datos comprendidos entre el inicio y el final
  
-        return parseValue(weatherArrayString, "\"speed\":", ",");
+        return parseValue(windArrayString, "\"speed\":", ",");	//Devolverá el valor de "speed" dentro de la sección "wind"
     }
  
     private static String parseValueRain(String jsonResponse) {
-        String rainKey = "\"rain\":{\"3h\":";
-        return parseValue(jsonResponse, rainKey, "}");
+        String rainArrayKey = "\"rain\":{\"3h\":";
+        return parseValue(jsonResponse, rainArrayKey, "}");
     }
 	
 	private static String parseDescription(String jsonResponse) {
-		String weatherArrayKey = "\"weather\":";
-        int weatherArrayStart = jsonResponse.indexOf(weatherArrayKey) + weatherArrayKey.length();
-        int weatherArrayEnd = jsonResponse.indexOf("]", weatherArrayStart) + 1;
-        String weatherArrayString = jsonResponse.substring(weatherArrayStart, weatherArrayEnd);
+		String descriptionArrayKey = "\"weather\":";
+        int descriptionArrayStart = jsonResponse.indexOf(descriptionArrayKey ) + descriptionArrayKey .length();
+        int descriptionArrayEnd = jsonResponse.indexOf("]", descriptionArrayStart) + 1;
+        String descriptionArrayString = jsonResponse.substring(descriptionArrayStart, descriptionArrayEnd);
 
-        return parseValue(weatherArrayString, "\"description\":\"", "\"");
+        return parseValue(descriptionArrayString, "\"description\":\"", "\"");
     }
-	
-
 	
 	private static String APIKey1="1587f1c706adc7607d141a21f87bd306";	//Colocación de la API Key de OpenWeather para más comodidad
 	private static double Lat=41.36417;
@@ -155,12 +156,9 @@ public class PI_A15 {
     		cuadroTexto.setVisible(true);	//Hace visible el JFrame cuadroTexto	
     	
 		}
-
 		} catch (Exception e){
 			e.printStackTrace();
 //			Impresión de errores posibles
 		}
-	
 	}
-
 }
