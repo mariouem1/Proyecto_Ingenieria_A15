@@ -64,7 +64,7 @@ public class PI_A15 {
         // Reemplazar coma con punto
         str = str.replace(',', '.');
         // Convertir a double
-        return Double.parseDouble(str);	//Esto lo realizamos para obtener el resultado en km/h y no en m/s
+        return Double.parseDouble(str);	
     }
 	
 	private static String APIKey1="1587f1c706adc7607d141a21f87bd306";	//Colocación de la API Key de OpenWeather para más comodidad
@@ -169,9 +169,4 @@ public class PI_A15 {
 //			Impresión de errores posibles
 		}
 	}
-
-private static double convertStringToDouble(String modifiedString1) {
-	// TODO Auto-generated method stub
-	return 0;
-}
 }
