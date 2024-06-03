@@ -1,3 +1,8 @@
+/************************************************************
+* Nombre: Mario Antonio Hinojosa Guachamin y Jesús Espadas Alonso
+* Asignatura: Proyecto de Ingeniería
+*/
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
