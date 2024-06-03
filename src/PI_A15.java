@@ -22,7 +22,6 @@ public class PI_A15 {
 /*
  * El primer método parsevalue obtendremos los datos de la llamada que no se encuentran dentro de un subarray de la llamada API.
  * A estos se les eliminará las dobles comillas y llaves ("{}") para que no aparezcan en el resulatado final.
- * 
  */
 	private static String parseValue(String jsonResponse, String key, String delimiter) {
         int startIndex = jsonResponse.indexOf(key) + key.length();
@@ -43,7 +42,7 @@ public class PI_A15 {
         String windArrayString = jsonResponse.substring(windArrayStart, windArrayEnd);		
         //Creación de un subarray dondese encuantran los datos comprendidos entre el inicio y el final
  
-        return parseValue(windArrayString, "\"speed\":", ",");	//Devolverá el valor de "speed" dentro de la sección "wind"
+        return parseValue("%5d" + windArrayString, "\"speed\":", ",");	//Devolverá el valor de "speed" dentro de la sección "wind"
     }
  
     private static String parseValueRain(String jsonResponse) {
@@ -111,21 +110,24 @@ public class PI_A15 {
  *   dato que se quiere obtener.
  */
             String temperature = parseValue(jsonResponse, "\"temp\":", ",");
+            	double temp1 = convertStringToDouble1(temperature);
             String temperaturemin = parseValue(jsonResponse, "\"temp_min\":", ",");
             String temperaturemax = parseValue(jsonResponse, "\"temp_max\":", ",");
             String humidity = parseValue(jsonResponse, "\"humidity\":", ",");
+        		double hum1 = convertStringToDouble1(humidity);
             String wind = parseValueWind(jsonResponse);
             	double wind1 = convertStringToDouble1(wind);	//Conversión del resultado String a un double
             String description = parseDescription(jsonResponse);  
             String rain= parseValueRain(jsonResponse);  
+            	double rain1 = convertStringToDouble1(rain);
             String pressure=parseValue(jsonResponse, "\"pressure\":", ",");
             String time=parseValue(jsonResponse, "\"dt_txt\":", ",");
-
+            
 //    		En esta parte se creará una ventana donde se monstrarán los resultados obtendos.
     		JFrame cuadroTexto=new JFrame ("Proyecto Ingeniería: API Meteorológica");	//Nombre principal de la ventana
     		cuadroTexto.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		//En esta parte si cerremos la ventana, se finalizará el programa
 
-    		cuadroTexto.setSize(400,300);	//Tamaño de la ventana
+    		cuadroTexto.setSize(400,415);	//Tamaño de la ventana
     		cuadroTexto.setLocation(560,300);	//Localización de la ventana
     		cuadroTexto.setResizable(false);	//Cancelación de redimensión de ventana
     		cuadroTexto.setLayout(new FlowLayout());	
@@ -148,16 +150,43 @@ public class PI_A15 {
 					// TODO Auto-generated method stub
 					String climaText ="Fecha & Hora: " + time + "\n";				//El "+=" equivalen a un "println"
                     climaText +="Descripción: " + description + "\n";				//pero dentro de la subventana
-                    climaText +="Temperatura: " + temperature + " °C\n";			
+                    climaText +="Temperatura: " + temperature + " °C\n";
                     climaText +="Temperatura Mínima: " + temperaturemin + " °C\n";
                     climaText +="Temperatura Máxima: " + temperaturemax + " °C\n";
                     climaText +="Humedad: " + humidity + "%\n";
                     climaText +="Viento: " + (wind1*3.6) + " km/h\n";
-                    climaText +="Lluvia: " + rain + " mm\n";
+                    climaText +="Lluvia: " + rain + " mm/h\n";
                     climaText +="Presión atmosférica: " + pressure + " hPa\n";
+                    if (temp1>=24&&temp1<30) {
+                    	climaText +="\n¡Aviso de temperaturas altas!\n";
+                    }
+                    else if  (temp1>=30) {
+                    	climaText +="\n¡¡¡Aviso de temperaturas extremas!!!\n";
+                    }
+                    if (hum1>=65) {
+                    	climaText +="¡Aviso de humedad relativa alta!\n";
+                    }
+                    if (wind1>=41&&wind1<=70) {
+                    	climaText +="¡Aviso de vientos fuertes!\n";
+                    }
+                    if (wind1>=71&&wind1<=120) {
+                    	climaText +="¡¡Aviso de vientos muy fuertes!!\n";
+                    }
+                    if (wind1>=121) {
+                    	climaText +="¡¡¡Aviso de vientos huracanados!!!\n";
+                    }
+                    if (rain1>=15&&rain1<=30) {
+                    	climaText +="¡Aviso de lluvias fuertes!\n";
+                    }
+                    if (wind1>=31&&wind1<=60) {
+                    	climaText +="¡¡Aviso de lluvias muy fuertes!!\n";
+                    }
+                    if (wind1>=61) {
+                    	climaText +="¡¡¡Aviso de lluvias torrenciales!!!\n";
+                    }
                     climaText +="\nAPI Code: "+ respuestaCode;
                     climaDisplay.setText(climaText);	//Todos los datos serán impresos en la subventana
-				}
+				} 
     			
     		});	
     		
@@ -170,3 +199,7 @@ public class PI_A15 {
 		}
 	}
 }
+
+/*
+ * Añadir alertas de temperatura lluvia y viento
+ */
