@@ -127,8 +127,8 @@ public class PI_A15 {
     		JFrame cuadroTexto=new JFrame ("Proyecto Ingeniería: API Meteorológica");	//Nombre principal de la ventana
     		cuadroTexto.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		//En esta parte si cerremos la ventana, se finalizará el programa
 
-    		cuadroTexto.setSize(400,415);	//Tamaño de la ventana
-    		cuadroTexto.setLocation(560,300);	//Localización de la ventana
+    		cuadroTexto.setSize(400,400);	//Tamaño de la ventana
+    		cuadroTexto.setLocation(560,250);	//Localización de la ventana
     		cuadroTexto.setResizable(false);	//Cancelación de redimensión de ventana
     		cuadroTexto.setLayout(new FlowLayout());	
     		
@@ -199,7 +199,3 @@ public class PI_A15 {
 		}
 	}
 }
-
-/*
- * Añadir alertas de temperatura lluvia y viento
- */
