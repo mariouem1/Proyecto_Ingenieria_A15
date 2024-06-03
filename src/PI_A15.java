@@ -110,13 +110,13 @@ public class PI_A15 {
  *   dato que se quiere obtener.
  */
             String temperature = parseValue(jsonResponse, "\"temp\":", ",");
-            	double temp1 = convertStringToDouble1(temperature);
+            	double temp1 = convertStringToDouble1(temperature);			//Conversión del resultado String a un double
             String temperaturemin = parseValue(jsonResponse, "\"temp_min\":", ",");
             String temperaturemax = parseValue(jsonResponse, "\"temp_max\":", ",");
             String humidity = parseValue(jsonResponse, "\"humidity\":", ",");
         		double hum1 = convertStringToDouble1(humidity);
             String wind = parseValueWind(jsonResponse);
-            	double wind1 = convertStringToDouble1(wind);	//Conversión del resultado String a un double
+            	double wind1 = convertStringToDouble1(wind);	
             String description = parseDescription(jsonResponse);  
             String rain= parseValueRain(jsonResponse);  
             	double rain1 = convertStringToDouble1(rain);
@@ -161,7 +161,16 @@ public class PI_A15 {
                     	climaText +="\n¡Aviso de temperaturas altas!\n";
                     }
                     else if  (temp1>=30) {
-                    	climaText +="\n¡¡¡Aviso de temperaturas extremas!!!\n";
+                    	climaText +="\n¡¡¡Aviso de temperaturas extremas altas!!!\n";
+                    }
+                    else if  (temp1<=10) {
+                    	climaText +="\n¡Aviso de temperaturas bajas!\n";
+                    }
+                    else if  (temp1>=3&&temp1<10) {
+                    	climaText +="\n¡¡¡Aviso de temperaturas bajas!!!\n";
+                    }
+                    else if  (temp1<3) {
+                    	climaText +="\n¡¡¡Aviso de temperaturas bajas extremas. Formación de placas de hielo!!!\n";
                     }
                     if (hum1>=65) {
                     	climaText +="¡Aviso de humedad relativa alta!\n";
@@ -169,19 +178,19 @@ public class PI_A15 {
                     if (wind1>=41&&wind1<=70) {
                     	climaText +="¡Aviso de vientos fuertes!\n";
                     }
-                    if (wind1>=71&&wind1<=120) {
+                    else if (wind1>=71&&wind1<=120) {
                     	climaText +="¡¡Aviso de vientos muy fuertes!!\n";
                     }
-                    if (wind1>=121) {
+                    else if (wind1>=121) {
                     	climaText +="¡¡¡Aviso de vientos huracanados!!!\n";
                     }
                     if (rain1>=15&&rain1<=30) {
                     	climaText +="¡Aviso de lluvias fuertes!\n";
                     }
-                    if (wind1>=31&&wind1<=60) {
+                    else if (rain1>=31&&rain1<=60) {
                     	climaText +="¡¡Aviso de lluvias muy fuertes!!\n";
                     }
-                    if (wind1>=61) {
+                    else if (rain1>=61) {
                     	climaText +="¡¡¡Aviso de lluvias torrenciales!!!\n";
                     }
                     climaText +="\nAPI Code: "+ respuestaCode;
