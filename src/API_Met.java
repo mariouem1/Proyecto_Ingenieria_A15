@@ -20,7 +20,7 @@ import java.net.URL;
 // Pág. web referencia: https://openweathermap.org/city/3128760
 // Pág. web comandos: https://openweathermap.org/api/one-call-3#how
 
-public class PI_A15 {
+public class API_Met {
 	
  // Se han usado métodos "private static" para acceder más fácil a los datos y no saturar el código principal
 
@@ -114,14 +114,14 @@ public class PI_A15 {
  * A partr de este String, seleccionaremos los datos que se quieran visualizar gracias al método parseValue y el 
  *   dato que se quiere obtener.
  */
-            String temperature = parseValue(jsonResponse, "\"temp\":", ",");
+            String temperature = parseValue(jsonResponse, "\"feels_like\":", ",");
             	double temp1 = convertStringToDouble1(temperature);			//Conversión del resultado String a un double
-            String temperaturemin = parseValue(jsonResponse, "\"temp_min\":", ",");
+            String temperaturemin = parseValue(jsonResponse, "\"temp_min\":", ",");	
             String temperaturemax = parseValue(jsonResponse, "\"temp_max\":", ",");
             String humidity = parseValue(jsonResponse, "\"humidity\":", ",");
         		double hum1 = convertStringToDouble1(humidity);
             String wind = parseValueWind(jsonResponse);
-            	double wind1 = convertStringToDouble1(wind);	
+            	double wind1 = convertStringToDouble1(wind)*3.6;	
             String description = parseDescription(jsonResponse);  
             String rain= parseValueRain(jsonResponse);  
             	double rain1 = convertStringToDouble1(rain);
@@ -137,9 +137,11 @@ public class PI_A15 {
     		cuadroTexto.setResizable(false);	//Cancelación de redimensión de ventana
     		cuadroTexto.setLayout(new FlowLayout());	
     		
+    				
+    		
     		JButton fetchButton=new JButton ("Actualizar");		//Creación del botón "Actualizar"
     		JTextArea climaDisplay=new JTextArea (11, 30);	//Tamaño de la subventana donde se mostrará la información
-    		climaDisplay.setEditable(false);	//La subventana no será editable mediante texto introducido
+    		climaDisplay.setEditable(false);	//La subventana no será editable mediante texto introducido  
     		
     		cuadroTexto.add(new JLabel("Parte Meteorológico de las Coordenadas: "+Lat+", "+Long));
     		
@@ -152,14 +154,14 @@ public class PI_A15 {
     			climaDisplay.setText("---------------------Pulse el Botón Actualizar---------------------");
     		fetchButton.addActionListener(new ActionListener() {	//Le diremos al botón que hacer después de activarse
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
+					// TODO Auto-generated method stub 
 					String climaText ="Fecha & Hora: " + time + "\n";				//El "+=" equivalen a un "println"
                     climaText +="Descripción: " + description + "\n";				//pero dentro de la subventana
-                    climaText +="Temperatura: " + temperature + " °C\n";
+                    climaText +="Sensación térmica: " + temperature + " °C\n";
                     climaText +="Temperatura Mínima: " + temperaturemin + " °C\n";
                     climaText +="Temperatura Máxima: " + temperaturemax + " °C\n";
                     climaText +="Humedad: " + humidity + "%\n";
-                    climaText +="Viento: " + (wind1*3.6) + " km/h\n";
+                    climaText +="Viento: " + wind1 + " km/h\n";
                     climaText +="Lluvia: " + rain + " mm/h\n";
                     climaText +="Presión atmosférica: " + pressure + " hPa\n";
                     if (temp1>=24&&temp1<30) {
@@ -178,25 +180,25 @@ public class PI_A15 {
                     	climaText +="\n¡¡¡Aviso de temperaturas bajas extremas. Formación de placas de hielo!!!\n";
                     }
                     if (hum1>=65) {
-                    	climaText +="¡Aviso de humedad relativa alta!\n";
+                    	climaText +="\n¡Aviso de humedad relativa alta!\n";
                     }
                     if (wind1>=41&&wind1<=70) {
-                    	climaText +="¡Aviso de vientos fuertes!\n";
+                    	climaText +="\n¡Aviso de vientos fuertes!\n";
                     }
                     else if (wind1>=71&&wind1<=120) {
-                    	climaText +="¡¡Aviso de vientos muy fuertes!!\n";
+                    	climaText +="\n¡¡Aviso de vientos muy fuertes!!\n";
                     }
                     else if (wind1>=121) {
-                    	climaText +="¡¡¡Aviso de vientos huracanados!!!\n";
+                    	climaText +="\n¡¡¡Aviso de vientos huracanados!!!\n";
                     }
                     if (rain1>=15&&rain1<=30) {
-                    	climaText +="¡Aviso de lluvias fuertes!\n";
+                    	climaText +="\n¡Aviso de lluvias fuertes!\n";
                     }
                     else if (rain1>=31&&rain1<=60) {
-                    	climaText +="¡¡Aviso de lluvias muy fuertes!!\n";
+                    	climaText +="\n¡¡Aviso de lluvias muy fuertes!!\n";
                     }
                     else if (rain1>=61) {
-                    	climaText +="¡¡¡Aviso de lluvias torrenciales!!!\n";
+                    	climaText +="\n¡¡¡Aviso de lluvias torrenciales!!!\n";
                     }
                     climaText +="\nAPI Code: "+ respuestaCode;
                     climaDisplay.setText(climaText);	//Todos los datos serán impresos en la subventana
